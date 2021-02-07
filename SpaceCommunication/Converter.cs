@@ -4,23 +4,55 @@ using System.Text;
 
 namespace SpaceCommunication {
 	class Converter {
-		public byte[] convertToBytes(string inputMessage) {
-			return Encoding.ASCII.GetBytes(inputMessage);
+		// Opmærksom på 8 og 16 bit.
+
+		public List<string> convertToBytes(string inputMessage) {
+			List<string> result = new List<string>();
+
+			foreach (char c in inputMessage) {
+				result.Add(Convert.ToString(c, 2).PadLeft(8, '0'));
+			}
+
+			return result;
 		}
 
-		public byte[] corruptData(byte[] inputBytes) {
+		public List<string> corruptData(List<string> inputBytes) {
 			Random rnd = new Random();
 
-			byte[] data = inputBytes;
+			for (int i = 0; i < 8; i++) {
+				int randomItem = rnd.Next(0, inputBytes.Count);
+				int randomBytePlace = rnd.Next(0, 8);
 
-			rnd.NextBytes(data);
 
-			return data;
+				char[] charMessage = inputBytes[randomItem].ToCharArray();
+
+				if (charMessage[randomBytePlace] == '1') {
+					charMessage[randomBytePlace] = '0';
+				} else {
+					charMessage[randomBytePlace] = '1';
+				}
+
+				StringBuilder stringByte = new StringBuilder();
+
+				foreach (var item in charMessage) {
+					stringByte.Append(item);
+				}
+				inputBytes.RemoveAt(randomItem);
+				inputBytes.Insert(randomItem, stringByte.ToString());
+			}
+
+			return inputBytes;
 		}
 
-		public string convertToString(byte[] inputBytes) {
+		public string convertToString(List<string> inputBytes) {
+			StringBuilder result = new StringBuilder();
 
-			return Encoding.ASCII.GetString(inputBytes);
+			foreach (string charByte in inputBytes) {
+				Console.WriteLine(charByte);
+				result.Append((char)Convert.ToInt32(charByte, 2));
+			}
+
+			return result.ToString();
 		}
 
 	}

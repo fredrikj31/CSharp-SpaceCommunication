@@ -9,11 +9,11 @@ namespace SpaceCommunication {
 
 			string message = "Hello World";
 
-			byte[] result = converter.convertToBytes(inputMessage: message);
+			List<string> result = converter.convertToBytes(inputMessage: message);
 
-			result = converter.corruptData(result);
+			List<string> corruptData = converter.corruptData(result);
 
-			Console.WriteLine(converter.convertToString(result));
+			Console.WriteLine(converter.convertToString(corruptData));
 			
 		}
 	}
