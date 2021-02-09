@@ -48,7 +48,7 @@ namespace SpaceCommunication {
 			StringBuilder result = new StringBuilder();
 
 			foreach (string charByte in inputBytes) {
-				Console.WriteLine(charByte);
+				//Console.WriteLine(charByte);
 				result.Append((char)Convert.ToInt32(charByte, 2));
 			}
 
